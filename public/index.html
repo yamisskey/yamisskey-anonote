@@ -118,24 +118,64 @@
 
     .textarea-container {
       margin: 1.5rem 0;
+      position: relative;
+    }
+
+    .textarea-container::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 5%;
+      width: 90%;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(112, 93, 216, 0.3),
+        rgba(112, 93, 216, 0.5),
+        rgba(112, 93, 216, 0.3),
+        transparent
+      );
     }
 
     textarea {
       width: 100%;
       background: rgba(82, 61, 216, 0.08);
       border: 1px solid rgba(82, 61, 216, 0.18);
-      padding: 1rem;
-      border-radius: 12px;
-      color: #fff;
-      transition: all 0.2s ease;
-      min-height: 120px;
+      padding: 2.5rem 1.2rem;
+      border-radius: 16px;
+      color: #fff !important;
+      transition: all 0.3s ease;
+      min-height: 140px;
       resize: vertical;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      letter-spacing: 0.5px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(
+        to bottom,
+        rgba(82, 61, 216, 0.02) 0%,
+        rgba(82, 61, 216, 0.08) 50%,
+        rgba(82, 61, 216, 0.02) 100%
+      );
+    }
+
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 1rem;
     }
 
     textarea:focus {
       outline: none;
       border-color: #705dd8;
-      background: rgba(82, 61, 216, 0.15);
+      background: linear-gradient(
+        to bottom,
+        rgba(82, 61, 216, 0.05) 0%,
+        rgba(82, 61, 216, 0.15) 50%,
+        rgba(82, 61, 216, 0.05) 100%
+      );
+      box-shadow: 0 0 0 3px rgba(112, 93, 216, 0.2),
+                  inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
     }
 
     .submit-button {
