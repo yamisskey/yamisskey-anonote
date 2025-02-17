@@ -1,38 +1,267 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Misskey Note Poster</title>
+  <title>あののーと</title>
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Roboto', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .main-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 1rem;
+      background-image: url('./wallpaper.jpg'); /* パスを修正 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .main-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 1;
+    }
+
+    .card {
+      background: rgba(15, 10, 34, 0.9);
+      padding: 2.5rem;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(82, 61, 216, 0.18);
+      margin-top: 50px;
+    }
+
+    .icon-container {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      overflow: visible;
+    }
+
+    .icon-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(15, 10, 34, 0.9);
+      border: 1px solid rgba(82, 61, 216, 0.18);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .favicon-icon {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      animation: slow-spin 6s linear infinite;
+    }
+
+    .icon-wrapper::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #705dd8;
+      border-right-color: #705dd8;
+      animation: spinner 6s linear infinite;
+    }
+
+    .header {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .header h1 {
+      color: #fff;
+      font-size: 2.2rem;
+      margin: 0;
+      font-weight: bold;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(135deg, #fff, #a8b1c2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .textarea-container {
+      margin: 1.5rem 0;
+    }
+
+    textarea {
+      width: 100%;
+      background: rgba(82, 61, 216, 0.08);
+      border: 1px solid rgba(82, 61, 216, 0.18);
+      padding: 1rem;
+      border-radius: 12px;
+      color: #fff;
+      transition: all 0.2s ease;
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #705dd8;
+      background: rgba(82, 61, 216, 0.15);
+    }
+
+    .submit-button {
+      width: 100%;
+      background: linear-gradient(135deg, #9c48a3, #705dd8);
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    .submit-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .status-message {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: left;
+    }
+
+    .status-message.error {
+      background: rgba(220, 38, 38, 0.1);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      color: #ef4444;
+    }
+
+    .status-message.success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: #10b981;
+    }
+
+    @keyframes slow-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spinner {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(720deg); }
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 1.5rem;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    .header a {
+      text-decoration: none;
+      position: relative;
+    }
+
+    .header a:hover::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
-  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-    <h1 class="text-2xl font-bold mb-4 text-gray-800">Misskey Note Poster</h1>
-
-    <div class="space-y-4">
-      <div>
-        <textarea id="noteText"
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          rows="4" placeholder="投稿内容を入力してください..."></textarea>
+<body>
+  <div class="main-container">
+    <div class="card">
+      <div class="icon-container">
+        <div class="icon-wrapper">
+          <img src="./favicon.ico" alt="Logo" class="favicon-icon" /> <!-- パスを修正 -->
+        </div>
       </div>
 
-      <button onclick="postNote()"
-        class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
-        投稿する
+      <div class="header">
+        <h1>あののーと</h1>
+        <p class="text-gray-400 mt-2">
+          <a 
+            href="https://yami.ski/@anonote" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="text-purple-400 hover:text-purple-300 transition-colors"
+          >@anonote@yami.ski</a>
+          でノートを投稿
+        </p>
+      </div>
+
+      <div class="textarea-container">
+        <textarea 
+          id="noteText"
+        ></textarea>
+      </div>
+
+      <button 
+        id="submitButton"
+        class="submit-button"
+        onclick="postNote()"
+      >
+        匿名ノート➣
       </button>
 
-      <div id="status" class="hidden rounded-lg p-3 text-center"></div>
+      <div id="status" class="hidden status-message"></div>
     </div>
   </div>
 
   <script>
     async function postNote() {
+      const textarea = document.getElementById('noteText');
+      const button = document.getElementById('submitButton');
       const statusDiv = document.getElementById('status');
-      const noteText = document.getElementById('noteText').value;
-      const button = document.querySelector('button');
+      const noteText = textarea.value;
 
       if (!noteText.trim()) {
         showStatus('テキストを入力してください', 'error');
@@ -58,7 +287,7 @@
         }
 
         showStatus('投稿が完了しました！', 'success');
-        document.getElementById('noteText').value = '';
+        textarea.value = '';
       } catch (error) {
         showStatus(error.message, 'error');
       } finally {
@@ -70,17 +299,12 @@
     function showStatus(message, type) {
       const statusDiv = document.getElementById('status');
       statusDiv.textContent = message;
-      statusDiv.className = `rounded-lg p-3 text-center ${type === 'error'
-          ? 'bg-red-100 text-red-700'
-          : 'bg-green-100 text-green-700'
-        }`;
-      statusDiv.classList.remove('hidden');
+      statusDiv.className = `status-message ${type}`;
 
       setTimeout(() => {
-        statusDiv.classList.add('hidden');
+        statusDiv.className = 'hidden status-message';
       }, 3000);
     }
   </script>
 </body>
-
 </html>
